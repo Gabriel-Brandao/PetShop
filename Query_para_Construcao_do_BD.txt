@@ -1,0 +1,119 @@
+CREATE TABLE Endereço (
+    Cep           VARCHAR (10) NOT NULL,
+    Rua           VARCHAR (40),
+    Numero        INT          NOT NULL,
+    Complemento   VARCHAR (40),
+    Bairro        VARCHAR (30) NOT NULL,
+    Estado        INT          NOT NULL,
+    Cidade        VARCHAR (30) NOT NULL,
+    SequencialEnd INTEGER      NOT NULL PRIMARY KEY AUTOINCREMENT
+);
+
+
+CREATE TABLE Data (
+    Dia           INT,
+    Mes           INT,
+    Ano           INT,
+    SequencialDat INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
+);
+
+CREATE TABLE Animal (
+    Nome          VARCHAR (15),
+    Sexo          CHAR (2)     NOT NULL,
+    Idade         INT          NOT NULL,
+    Peso          REAL         NOT NULL,
+    SequencialAni INTEGER      PRIMARY KEY AUTOINCREMENT
+                               NOT NULL,
+    AveId         INT          REFERENCES Ave (SequencialAve) ON DELETE CASCADE,
+    CachorroId    INT          REFERENCES Cachorro (SequencialCao) ON DELETE CASCADE,
+    GatoId        INT          REFERENCES Gato (SequencialGat) ON DELETE CASCADE,
+    OutroAnimalId INT          REFERENCES OutroAnimal (SequencialOA) ON DELETE CASCADE,
+    TartarugaId   INT          REFERENCES Tartaruga (SequencialTar) ON DELETE CASCADE
+);
+
+CREATE TABLE Cachorro (
+    Raça          VARCHAR (40),
+    Pelagem       VARCHAR (40) NOT NULL,
+    Adestrado     BOOLEAN,
+    Castrado      BOOLEAN,
+    SequencialCao INTEGER      PRIMARY KEY AUTOINCREMENT NOT NULL
+);
+
+CREATE TABLE Gato (
+    Pelagem       VARCHAR (15)  NOT NULL,
+    Castrado      BOOLEAN,
+    Observação    VARCHAR (200),
+    SequencialGat INTEGER       NOT NULL PRIMARY KEY AUTOINCREMENT
+);
+
+CREATE TABLE Ave (
+    Dieta         BOOLEAN      NOT NULL,
+    Gaiola        BOOLEAN      NOT NULL,
+    Penugem       VARCHAR (20) NOT NULL,
+    Espécie       VARCHAR (40),
+    Invergadura   REAL         NOT NULL,
+    SequencialAve INTEGER      NOT NULL PRIMARY KEY AUTOINCREMENT
+);
+
+CREATE TABLE Tartaruga (
+    Dieta             BOOLEAN       NOT NULL,
+    TipoDeAmbiente    VARCHAR (200) NOT NULL,
+    TamanhoDaCarapaça REAL          NOT NULL,
+    SequencialTar     INTEGER 	    NOT NULL PRIMARY KEY AUTOINCREMENT
+);
+
+CREATE TABLE OutroAnimal (
+    FamiliaAnimal VARCHAR (40),
+    SequencialOA  INTEGER      PRIMARY KEY AUTOINCREMENT
+                               NOT NULL
+);
+
+
+CREATE TABLE Cliente (
+    Nome       VARCHAR (50) NOT NULL,
+    Idade      INT          NOT NULL,
+    Cpf        VARCHAR (16) NOT NULL
+                            PRIMARY KEY,
+    EndereçoId INT          REFERENCES Endereço (SequencialEnd) ON DELETE CASCADE,
+    AnimalId   INT          REFERENCES Animal (SequencialAni) ON DELETE SET NULL
+);
+
+CREATE TABLE Serviço (
+    Valor         REAL         NOT NULL,
+    AgendarVacina BOOLEAN,
+    Serviços      VARCHAR (80),
+    DataId                     REFERENCES Data (SequencialDat) 
+                               NOT NULL,
+    ClienteId                  REFERENCES Cliente (Cpf) 
+                               NOT NULL,
+    SequencialSer INTEGER      PRIMARY KEY AUTOINCREMENT
+                               NOT NULL
+);
+
+
+
+--SELECT MAX(SequencialAni) as Seq FROM Animal;
+
+--SELECT MAX(SequencialAni) FROM Animal A, Cliente C WHERE A.SequencialAni = C.AnimalId AND A.SequencialAni = 2;
+
+--SELECT * FROM Animal A WHERE A.SequencialAni NOT IN (SELECT AnimalId FROM Cliente);
+
+--SELECT * FROM Animal ORDER BY SequencialAni DESC LIMIT 2; 
+
+--SELECT C.Cpf, C.Nome, S.Serviços, S.Valor, MAX(S.SequencialSer) Seq FROM Serviço S, Cliente C WHERE S.ClienteId = C.Cpf;
+
+--UPDATE Animal SET Nome = ?, Sexo = ?, Idade = ?, Peso = ? WHERE SequencialAni = ?;
+
+--UPDATE Cliente SET Nome = ?, Idade = ? WHERE Cpf = ?;
+
+
+--SELECT AveId Aid, CachorroId Cid, GatoId Gid, TartarugaId Tid, OutroAnimalId Oid FROM Animal Ani WHERE Ani.SequencialAni = ?;
+--DELETE FROM Animal WHERE SequencialAni = 5;
+
+--SELECT AveId FROM Animal WHERE SequencialAni = 2 AND AveId IN (SELECT SequencialAve FROM Ave);
+--DELETE FROM Ave WHERE Ave.SequencialAve = 2;
+ 
+--SELECT CachorroId FROM Animal WHERE SequencialAni = 6 AND CachorroId IN (SELECT SequencialCao FROM Cachorro);
+--SELECT GatoId FROM Animal WHERE SequencialAni = 2 AND GatoId IN (SELECT SequencialGat FROM Gato);
+--SELECT TartarugaId FROM Animal WHERE SequencialAni = 7 AND TartarugaId IN (SELECT SequencialTar FROM Tartaruga);
+--SELECT OutroAnimalId FROM Animal WHERE SequencialAni = ? AND OutroAnimalId IN (SELECT SequencialOA FROM OutroAnimal);

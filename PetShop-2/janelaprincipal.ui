@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JanelaPrincipal</class>
+ <widget class="QMainWindow" name="JanelaPrincipal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Janela Principal</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCliente">
+    <property name="title">
+     <string>Cliente</string>
+    </property>
+    <addaction name="actionCadastro"/>
+   </widget>
+   <widget class="QMenu" name="menuServi_o">
+    <property name="title">
+     <string>Serviço</string>
+    </property>
+    <addaction name="actionCadastro_2"/>
+   </widget>
+   <addaction name="menuCliente"/>
+   <addaction name="menuServi_o"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCadastro">
+   <property name="text">
+    <string>Cadastro</string>
+   </property>
+  </action>
+  <action name="actionCadastro_2">
+   <property name="text">
+    <string>Cadastro</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
